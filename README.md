@@ -1,36 +1,36 @@
 # Marimo Custom Themes
 
 > personalize your experience with
-> [mairmo](https://github.com/marimo-team/marimo)
+> [marimo](https://github.com/marimo-team/marimo)
 
 ## Theme Gallery
 
 ### <a href="themes/coldme/">coldme</a>
 
 <div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
-    <img src="themes/coldme/coldme_light.png" alt="coldme light" width="500" "/>
-    <img src="themes/coldme/coldme_dark.png" alt="coldme dark" width="500"/>
+    <img src="themes/coldme/coldme_light.png" alt="coldme light" width="400" "/>
+    <img src="themes/coldme/coldme_dark.png" alt="coldme dark" width="400"/>
 </div>
 
 ### <a href="themes/nord/">nord</a>
 
 <div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
-    <img src="themes/nord/nord_light.png" alt="nord light" width="500" "/>
-    <img src="themes/nord/nord_dark.png" alt="nord dark" width="500"/>
+    <img src="themes/nord/nord_light.png" alt="nord light" width="400" "/>
+    <img src="themes/nord/nord_dark.png" alt="nord dark" width="400"/>
 </div>
 
 ### <a href="themes/mininini/">mininini</a>
 
 <div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
-    <img src="themes/mininini/mininini_light.png" alt="mininini light" width="500" "/>
-    <img src="themes/mininini/mininini_dark.png" alt="mininini dark" width="500"/>
+    <img src="themes/mininini/mininini_light.png" alt="mininini light" width="400" "/>
+    <img src="themes/mininini/mininini_dark.png" alt="mininini dark" width="400"/>
 </div>
 
 ### <a href="themes/wigwam/">wigwam</a>
 
 <div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
-    <img src="themes/wigwam/wigwam_light.png" alt="wigwam light" width="500" "/>
-    <img src="themes/wigwam/wigwam_dark.png" alt="wigwam dark" width="500"/>
+    <img src="themes/wigwam/wigwam_light.png" alt="wigwam light" width="400" "/>
+    <img src="themes/wigwam/wigwam_dark.png" alt="wigwam dark" width="400"/>
 </div>
 
 ## Notice
