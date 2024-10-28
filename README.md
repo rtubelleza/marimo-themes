@@ -62,9 +62,9 @@ Marimo, allowing for more extensive theme customization.
 To contribute your own themes, please follow these guidelines:
 
 -   **Refer to Default Arguments**: All available arguments are listed in
-    [`default.css`](themes/default/default.css), which serves as a reference
-    for writing your themes. You can experiment with other arguments, but
-    please note that stability cannot be guaranteed with untested changes.
+    [`default.css`](default.css), which serves as a reference for writing your
+    themes. You can experiment with other arguments, but please note that
+    stability cannot be guaranteed with untested changes.
 
 -   **Light and Dark Themes**: Implement both light and dark themes using the
     light-dark syntax as demonstrated in `default.css`. If you choose not to
@@ -73,8 +73,8 @@ To contribute your own themes, please follow these guidelines:
     `default.css`.
 
 -   **Folder Structure**: After finishing your CSS file, create a new folder
-    inside `[themes/]` with the name of your theme. Within this folder, upload
-    the following:
+    inside `themes` with the name of your theme. Within this folder, upload the
+    following:
 
     -   The CSS file
     -   Preview images
