@@ -54,7 +54,7 @@
     --secondary-foreground: #1c2b2a; /* Deep teal for contrast */
     --accent: #74b3a1; /* Calm seafoam */
     --accent-foreground: light-dark(
-        #e0f0f0,
+        #1c1e1e,
         #e0f0f0
     ); /* Dimmed accent foreground */
 
