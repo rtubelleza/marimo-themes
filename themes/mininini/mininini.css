@@ -1,11 +1,11 @@
-/* Load Iosevka and Space Grotesk from Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Iosevka:ital,wght@0,300..900;1,300..900&family=Space+Grotesk:ital,wght@0,300..700;1,300..700&display=swap");
+/* Load Iosevka and Lekton from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Iosevka:ital,wght@0,300..900;1,300..900&family=Lekton:wght@400..700&display=swap");
 
 /* Font and Radius Variables */
 :root {
     --monospace-font: "Iosevka", monospace;
-    --text-font: "Space Grotesk", sans-serif;
-    --heading-font: "Space Grotesk", sans-serif;
+    --text-font: "Lekton", sans-serif;
+    --heading-font: "Lekton", sans-serif;
     --radius: 16px; /* Dramatic rounding for playful effect */
 }
 
