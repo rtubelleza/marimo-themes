@@ -42,9 +42,9 @@ Marimo, allowing for more extensive theme customization.
 
 ## Usage
 
--   **Requirements**: Ensure you are using Marimo version **0.8.4** or higher,
-    as custom CSS support was introduced in this version. It is recommended to
-    keep your Marimo version up-to-date for the best experience.
+-   **Requirements**: Ensure you are using Marimo version **0.9.14** or higher.
+    It is recommended to keep your Marimo version up-to-date for the best
+    experience.
 
 -   **Navigating Themes**: Go to the `themes` folder to preview the themes
     using the provided screenshots. You can directly download the CSS files and
