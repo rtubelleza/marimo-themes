@@ -83,3 +83,11 @@ To contribute your own themes, please follow these guidelines:
 -   **Design Using Sample**: You can design your theme using the
     [`sample.py`](sample.py) file provided in the repository. This file helps
     visualize how your theme will look in the Marimo notebook.
+
+## Roadmap
+
+-   [ ] improve the sample notebook
+-   [ ] write a program to automatically take a screenshot of the sample
+        notebook with the given css file
+-   [ ] write a notebook to control different parameters and visualize the
+        effects directly in it
