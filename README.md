@@ -86,6 +86,7 @@ To contribute your own themes, please follow these guidelines:
 
 ## Roadmap
 
+-   [ ] implement this repo as a CLI tool
 -   [ ] improve the sample notebook
 -   [ ] write a program to automatically take a screenshot of the sample
         notebook with the given css file
