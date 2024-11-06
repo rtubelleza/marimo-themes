@@ -1,12 +1,12 @@
-/* Load Iosevka and Inter from Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Iosevka:ital,wght@0,300..900;1,300..900&family=Inter:ital,wght@0,300..900;1,300..900&display=swap");
+/* Load Merriweather and Fira Code from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300..900&family=Fira+Code:wght@300..700&display=swap");
 
 /* Font and Radius Variables */
 :root {
-    --monospace-font: var(--marimo-monospace-font, "Iosevka", monospace);
-    --text-font: var(--marimo-text-font, "Iosevka", sans-serif);
-    --heading-font: var(--marimo-heading-font, "Inter", sans-serif);
-    --radius: 8px;
+    --monospace-font: "Fira Code", monospace; /* Clean coding font */
+    --text-font: "Merriweather", serif; /* Soft serif for warmth and comfort */
+    --heading-font: "Merriweather", serif; /* Consistent with text font */
+    --radius: 12px; /* Slightly softer corners for a gentler feel */
 }
 
 /* Base Colors */
