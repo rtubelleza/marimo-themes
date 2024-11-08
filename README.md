@@ -39,16 +39,16 @@
 pip install motheme
 
 # Initialize themes
-mtheme update
+motheme update
 
 # List available themes
-mtheme themes
+motheme themes
 
 # Apply a theme to specific files
-mtheme apply coldme notebook1.py notebook2.py
+motheme apply coldme notebook1.py notebook2.py
 
 # Apply theme recursively
-mtheme apply -r coldme ./
+motheme apply -r coldme ./
 ```
 
 ## Notice
