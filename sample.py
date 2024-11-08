@@ -3,7 +3,7 @@
 import marimo
 
 __generated_with = "0.9.14"
-app = marimo.App(
+app = marimo.App(css_file="/Users/chanhuizhihou/Library/Application Support/mtheme/themes/coldme.css", 
     layout_file="layouts/sample.slides.json",
     css_file="themes/wigwam/wigwam.css",
 )
