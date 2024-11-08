@@ -48,7 +48,7 @@ mtheme themes
 mtheme apply coldme notebook1.py notebook2.py
 
 # Apply theme recursively
-mtheme apply coldme -r
+mtheme apply -r coldme ./
 ```
 
 ## Notice
