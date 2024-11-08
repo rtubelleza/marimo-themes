@@ -33,6 +33,24 @@
     <img src="themes/wigwam/wigwam_dark.png" alt="wigwam dark" width="400"/>
 </div>
 
+## Get Started
+
+```bash
+pip install motheme
+
+# Initialize themes
+mtheme update
+
+# List available themes
+mtheme themes
+
+# Apply a theme to specific files
+mtheme apply coldme notebook1.py notebook2.py
+
+# Apply theme recursively
+mtheme apply coldme -r
+```
+
 ## Notice
 
 Please note that some parts of the Marimo notebook are not fully exposed for
