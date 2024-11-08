@@ -26,9 +26,11 @@ def apply(theme_name: str, *files: str, recursive: bool = False) -> None:
     """
     Apply a Marimo theme to specified notebook files.
 
-    :param theme_name: Name of the theme to apply
-    :param files: List of Marimo notebook files to modify
-    :param recursive: If True, recursively search directories for .mo files
+    Args:
+        theme_name: Name of the theme to apply
+        files: List of Marimo notebook files to modify
+        recursive: [-r] If True, recursively search directories for .mo files
+
     """
     if not files:
         print(
