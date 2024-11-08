@@ -1,26 +1,28 @@
+# ruff: noqa
+
 import marimo
 
 __generated_with = "0.9.14"
-app = marimo.App(
+app = marimo.App(css_file="/Users/chanhuizhihou/Library/Application Support/mtheme/themes/coldme.css", 
     layout_file="layouts/sample.slides.json",
     css_file="themes/wigwam/wigwam.css",
 )
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         r"""
         # Sample Markdown Block
 
         ---
 
-        # Header 1  
-        ## Header 2  
-        ### Header 3  
-        #### Header 4  
-        ##### Header 5  
-        ###### Header 6  
+        # Header 1
+        ## Header 2
+        ### Header 3
+        #### Header 4
+        ##### Header 5
+        ###### Header 6
 
 
         ---
@@ -29,27 +31,26 @@ def __(mo):
 
         ---
 
-        > "The only way to do great work is to love what you do."  
+        > "The only way to do great work is to love what you do."
         > — *Steve Jobs*
         """
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         r"""
         ---
 
-        1. Item One  
-        2. Item Two  
-        3. Item Three  
+        1. Item One
+        2. Item Two
+        3. Item Three
 
         ---
 
-        - Bullet One  
-        - Bullet Two  
+        - Bullet One
+        - Bullet Two
         - Bullet Three
 
         ---
@@ -63,11 +64,10 @@ def __(mo):
         [Marimo](https://marimo.io/)
         """
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         """
         | Syntax      | Description | Example           |
@@ -93,25 +93,23 @@ def __(mo):
         ---
 
 
-        - Inline: $E = mc^2$  
+        - Inline: $E = mc^2$
         - Block:
 
         $$
-        f(x) = \int_{-\infty}^{\infty} e^{-x^2} \, dx
+        f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} \\, dx
         $$
         """
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(r"""# Incomplete Reference of Different Args' Use""")
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         r"""
         ## `bg-muted` & `text-muted-foreground`
@@ -120,11 +118,10 @@ def __(mo):
         - The banner of collapsed cells
         """
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         r"""
         ## `bg-popover` & `text-popover-foreground`
@@ -135,11 +132,10 @@ def __(mo):
         - The popover snippets when you enter code in python cell
         """
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         r"""
         ## `bg-card` & `text-card-foreground`
@@ -153,11 +149,10 @@ def __(mo):
         | **Row 2**   | Second Cell | *Italicized text* |
         """
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         r"""
         ## `bg-primary & text-primary-foreground`
@@ -166,17 +161,15 @@ def __(mo):
         - the header of `Documentation` panel
         """
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md("""## `bg-secondary & text-secondary-foreground`""")
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         r"""
         ## `bg-accent` & `text-accent-foreground`
@@ -185,11 +178,10 @@ def __(mo):
         - Side panels on the left of the notebook
         """
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         r"""
         ## `destructive` & `destructive-foreground`
@@ -197,11 +189,10 @@ def __(mo):
         - delete button in each cell
         """
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         r"""
         ## other args
@@ -211,17 +202,15 @@ def __(mo):
         - ...
         """
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(r"""# Marimo UI Components""")
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.hstack(
         [
             mo.ui.button(
@@ -248,73 +237,63 @@ def __(mo):
         ],
         justify="space-around",
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.chat(model="")
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.checkbox()
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.code_editor()
-    return
 
 
 @app.cell(hide_code=True)
-def __(data, mo):
+def __(data, mo) -> None:
     mo.ui.dataframe(data.cars())
-    return
 
 
 @app.cell(hide_code=True)
-def __(data, mo):
+def __(data, mo) -> None:
     mo.ui.data_explorer(data.cars())
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.date(
         value="2022-06-01",
         start="2022-01-01",
         stop="2022-12-31",
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.dropdown(
         options={"one": 1, "two": 2, "three": 3},
         value="one",
         label="pick a number",
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.file(kind="area")
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.file_browser()
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.md(
         """
         **Your form.**
@@ -327,66 +306,57 @@ def __(mo):
         name=mo.ui.text(label="name"),
         date=mo.ui.date(label="date"),
     ).form(show_clear_button=True, bordered=True)
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.microphone()
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.multiselect(options=["a", "b", "c"], label="choose some options")
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.number(start=1, stop=10, step=2)
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.radio(
         options={"one": 1, "two": 2, "three": 3},
         value="one",
         label="pick a number",
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.range_slider(start=1, stop=10, step=2, value=[2, 6], show_value=True)
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.refresh(
         options=["1m", "5m 30s", "10m"],
         default_interval="10m",
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.switch()
-    return
 
 
 @app.cell(hide_code=True)
-def __(data, mo):
+def __(data, mo) -> None:
     mo.ui.table(
         data.cars(),
         show_column_summaries=True,
         selection="multi",
     )
-    return
 
 
 @app.cell(hide_code=True)
@@ -407,7 +377,7 @@ def __(mo):
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.hstack(
         [
             mo.ui.text(value="Hello, Text", kind="text"),
@@ -417,17 +387,15 @@ def __(mo):
         ],
         justify="space-around",
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.ui.text_area()
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.accordion(
         {
             "Door 1": mo.md("Nothing!"),
@@ -437,11 +405,10 @@ def __(mo):
             ),
         }
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.carousel(
         [
             mo.md("# Introduction"),
@@ -451,11 +418,10 @@ def __(mo):
             mo.md("## Questions?"),
         ]
     )
-    return
 
 
 @app.cell(hide_code=True)
-def __(mo):
+def __(mo) -> None:
     mo.vstack(
         [
             mo.callout("This is a info callout", kind="info"),
@@ -465,18 +431,19 @@ def __(mo):
             mo.callout("This is a success callout", kind="success"),
         ]
     )
-    return
 
 
 @app.cell(hide_code=True)
 def __():
     from vega_datasets import data
+
     return (data,)
 
 
 @app.cell(hide_code=True)
 def __():
     import marimo as mo
+
     return (mo,)
 
 
