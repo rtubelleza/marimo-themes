@@ -6,7 +6,7 @@ from pathlib import Path
 from .util import get_themes_dir
 
 
-def validate_theme(theme_name: str, themes_dir: Path) -> Path:
+def validate_theme_exists(theme_name: str, themes_dir: Path) -> Path:
     """Validate theme exists and return its path."""
     css_file_path = themes_dir / f"{theme_name}.css"
     if not css_file_path.exists():
