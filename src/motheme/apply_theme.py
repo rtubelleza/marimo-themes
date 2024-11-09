@@ -3,7 +3,7 @@
 import re
 from pathlib import Path
 
-from .util import get_themes_dir
+from .util import get_themes_dir, is_marimo_file
 
 
 def validate_theme_exists(theme_name: str, themes_dir: Path) -> Path:
@@ -48,7 +48,7 @@ def process_file(
     theme_applied = False
 
     for i, line in enumerate(content):
-        if "marimo.App" in line:
+        if "app = marimo.App(" in line:
             new_line = modify_app_line(line, css_file_path)
             new_content.append(new_line)
             # Append all remaining lines without checking them
@@ -70,7 +70,7 @@ def apply_theme(theme_name: str, files: list[str]) -> None:
     # Validate theme
     themes_dir = get_themes_dir()
     try:
-        css_file_path = validate_theme(theme_name, themes_dir)
+        css_file_path = validate_theme_exists(theme_name, themes_dir)
     except FileNotFoundError:
         return
 
@@ -78,6 +78,13 @@ def apply_theme(theme_name: str, files: list[str]) -> None:
     modified_files = []
     try:
         for file_name in files:
+            if not is_marimo_file(file_name):
+                print(
+                    f"Skipping {file_name} because "
+                    "it is not a Marimo notebook."
+                )
+                continue
+
             theme_applied, new_content = process_file(file_name, css_file_path)
 
             if theme_applied:
@@ -86,7 +93,7 @@ def apply_theme(theme_name: str, files: list[str]) -> None:
                 modified_files.append(file_name)
                 print(f"Applied {theme_name} theme to {file_name}")
             else:
-                print(f"No Marimo App found in {file_name}. Skipping.")
+                print(f"Failed to apply {theme_name} theme to {file_name}")
 
     except OSError as e:
         print(f"Error processing {file_name}: {e}")
