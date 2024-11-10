@@ -45,14 +45,44 @@ def process_file(file_name: str) -> tuple[bool, list[str]]:
 
     new_content = []
     theme_cleared = False
+    in_app_block = False
+    app_block_lines = []
+    open_parentheses = 0
 
     for i, line in enumerate(content):
-        if "marimo.App(" in line and "css_file=" in line:
-            new_line = clean_app_line(line)
-            new_content.append(new_line)
-            new_content.extend(content[i + 1 :])
-            theme_cleared = True
-            break
+        if "marimo.App(" in line:
+            in_app_block = True
+            open_parentheses = line.count("(") - line.count(")")
+            if open_parentheses == 0:
+                new_line = clean_app_line(line)
+                new_content.append(new_line)
+                theme_cleared = True
+                new_content.extend(content[i + 1 :])
+                break
+            app_block_lines = [line]
+            continue
+
+        if in_app_block:
+            open_parentheses += line.count("(") - line.count(")")
+            app_block_lines.append(line)
+
+            if open_parentheses == 0:
+                # End of App block reached
+                if any("css_file=" in _l for _l in app_block_lines):
+                    # Join all lines and clean them as one
+                    joined_lines = "".join(app_block_lines)
+                    new_line = clean_app_line(joined_lines)
+                    new_content.append(new_line)
+                    theme_cleared = True
+                    new_content.extend(content[i + 1 :])
+                else:
+                    # No css_file found, keep original lines
+                    new_content.extend(app_block_lines)
+                    new_content.extend(content[i + 1 :])
+
+                break
+            continue
+
         new_content.append(line)
 
     return theme_cleared, new_content
