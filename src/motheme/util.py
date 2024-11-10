@@ -15,7 +15,7 @@ def get_themes_dir() -> Path:
 
 def is_marimo_file(path: str) -> bool:
     """Check if a file is a Marimo notebook."""
-    if not path.endswith(".py"):
+    if not str(path).endswith(".py"):
         return False
 
     with Path(path).open("rb") as file:
