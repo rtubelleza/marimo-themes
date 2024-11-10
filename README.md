@@ -39,6 +39,9 @@
 # Install motheme CLI tool
 pip install motheme
 
+# Help messages
+motheme
+
 # Initialize themes
 motheme update
 
@@ -56,6 +59,12 @@ motheme apply -r coldme ./
 >
 > Please note that some parts of the Marimo notebook are not fully exposed for
 > customization at this time. This includes side panels and cell editors
+
+> [!WARNING]
+>
+> You may want to run `motheme clear -r ./` before sharing or uploading your
+> notebooks because the field `css_file` in `marimo.App()` may leak your
+> private data.
 
 ## Usage
 

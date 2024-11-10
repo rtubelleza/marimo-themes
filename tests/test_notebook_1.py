@@ -1,7 +1,7 @@
 import marimo
 
 __generated_with = "0.9.10"
-app = marimo.App(css_file="/Users/chanhuizhihou/Library/Application Support/mtheme/themes/coldme.css")
+app = marimo.App()
 
 
 @app.cell

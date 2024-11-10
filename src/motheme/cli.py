@@ -5,6 +5,7 @@ from pathlib import Path
 import arguably
 
 from .apply_theme import apply_theme
+from .clear_theme import clear_theme
 from .theme_downloader import download_themes, list_themes
 
 
@@ -28,7 +29,8 @@ def apply(theme_name: str, *files: str, recursive: bool = False) -> None:
     Args:
         theme_name: Name of the theme to apply
         files: List of Marimo notebook files to modify
-        recursive: [-r] If True, recursively search directories for .mo files
+        recursive: [-r] If True, recursively search directories for marimo
+            notebooks
 
     """
     if not files:
@@ -49,6 +51,37 @@ def apply(theme_name: str, *files: str, recursive: bool = False) -> None:
         files = expanded_files
 
     apply_theme(theme_name, list(files))
+
+
+@arguably.command
+def clear(*files: str, recursive: bool = False) -> None:
+    """
+    Remove theme settings from specified notebook files.
+
+    Args:
+        files: List of Marimo notebook files to modify
+        recursive: [-r] If True, recursively search directories for marimo
+            notebooks
+
+    """
+    if not files:
+        print(
+            "Error: Please specify at least one file or directory "
+            "to clear themes from."
+        )
+        return
+
+    if recursive:
+        expanded_files = []
+        for file in files:
+            if Path(file).is_dir():
+                # Recursively find all .mo files in the directory
+                expanded_files.extend(Path(file).rglob("*.py"))
+            else:
+                expanded_files.append(file)
+        files = expanded_files
+
+    clear_theme(list(files))
 
 
 def main() -> None:
