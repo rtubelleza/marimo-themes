@@ -46,15 +46,38 @@ def process_file(
 
     new_content = []
     theme_applied = False
+    in_app_block = False
+    app_block_lines = []
+    open_parentheses = 0
 
     for i, line in enumerate(content):
         if "app = marimo.App(" in line:
-            new_line = modify_app_line(line, css_file_path)
-            new_content.append(new_line)
-            # Append all remaining lines without checking them
-            new_content.extend(content[i + 1 :])
-            theme_applied = True
-            break
+            in_app_block = True
+            open_parentheses = line.count("(") - line.count(")")
+            if open_parentheses == 0:
+                # Single line case
+                new_line = modify_app_line(line, css_file_path)
+                new_content.append(new_line)
+                theme_applied = True
+                new_content.extend(content[i + 1 :])
+                break
+            app_block_lines = [line]
+            continue
+
+        if in_app_block:
+            open_parentheses += line.count("(") - line.count(")")
+            app_block_lines.append(line)
+
+            if open_parentheses == 0:
+                # End of App block reached
+                joined_lines = "".join(app_block_lines)
+                new_line = modify_app_line(joined_lines, css_file_path)
+                new_content.append(new_line)
+                theme_applied = True
+                new_content.extend(content[i + 1 :])
+                break
+            continue
+
         new_content.append(line)
 
     return theme_applied, new_content
