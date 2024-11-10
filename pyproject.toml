@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "motheme"
-version = "0.1.1"
+version = "0.1.2"
 description = "Marimo Theming Management"
 authors = [{ name = "eugene", email = "heinereugene@pm.me" }]
 readme = "README.md"
