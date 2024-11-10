@@ -36,6 +36,7 @@
 ## Get Started
 
 ```bash
+# Install motheme CLI tool
 pip install motheme
 
 # Initialize themes
@@ -47,29 +48,20 @@ motheme themes
 # Apply a theme to specific files
 motheme apply coldme notebook1.py notebook2.py
 
-# Apply theme recursively
+# Or, apply theme recursively in a directory
 motheme apply -r coldme ./
 ```
 
-## Notice
-
-Please note that some parts of the Marimo notebook are not fully exposed for
-customization at this time. This includes background colors of side panels,
-cell editors, and the menu. These features may be exposed in a later version of
-Marimo, allowing for more extensive theme customization.
+> [!NOTE]
+>
+> Please note that some parts of the Marimo notebook are not fully exposed for
+> customization at this time. This includes side panels and cell editors
 
 ## Usage
 
 -   **Requirements**: Ensure you are using Marimo version **0.9.14** or higher.
     It is recommended to keep your Marimo version up-to-date for the best
     experience.
-
--   **Navigating Themes**: Go to the `themes` folder to preview the themes
-    using the provided screenshots. You can directly download the CSS files and
-    place them in a suitable path in your project. To include a custom CSS file
-    inside a notebook, go to the configuration dropdown and add the relative
-    file path to your CSS file in the **Custom CSS** field. Once saved, you
-    should see the changes applied to your notebook.
 
 -   **Light and Dark Mode Support**: All themes support both light and dark
     modes and will switch automatically based on your notebook's current theme
@@ -101,12 +93,3 @@ To contribute your own themes, please follow these guidelines:
 -   **Design Using Sample**: You can design your theme using the
     [`sample.py`](sample.py) file provided in the repository. This file helps
     visualize how your theme will look in the Marimo notebook.
-
-## Roadmap
-
--   [ ] implement this repo as a CLI tool
--   [ ] improve the sample notebook
--   [ ] write a program to automatically take a screenshot of the sample
-        notebook with the given css file
--   [ ] write a notebook to control different parameters and visualize the
-        effects directly in it
