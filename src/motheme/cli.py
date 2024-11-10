@@ -20,7 +20,6 @@ def themes() -> None:
     list_themes()
 
 
-# CLI Command Integration
 @arguably.command
 def apply(theme_name: str, *files: str, recursive: bool = False) -> None:
     """
