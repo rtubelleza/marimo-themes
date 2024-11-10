@@ -39,6 +39,9 @@
 # Install motheme CLI tool
 pip install motheme
 
+# Help messages
+motheme
+
 # Initialize themes
 motheme update
 
