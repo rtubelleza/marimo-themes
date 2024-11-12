@@ -3,6 +3,7 @@
 import re
 from pathlib import Path
 
+from .app_parser import find_app_block, update_file_content
 from .util import get_themes_dir, is_marimo_file
 
 
@@ -44,43 +45,14 @@ def process_file(
     with Path(file_path).open() as f:
         content = f.readlines()
 
-    new_content = []
-    theme_applied = False
-    in_app_block = False
-    app_block_lines = []
-    open_parentheses = 0
+    app_block = find_app_block(content)
+    if not app_block:
+        return False, content
 
-    for i, line in enumerate(content):
-        if "app = marimo.App(" in line:
-            in_app_block = True
-            open_parentheses = line.count("(") - line.count(")")
-            if open_parentheses == 0:
-                # Single line case
-                new_line = modify_app_line(line, css_file_path)
-                new_content.append(new_line)
-                theme_applied = True
-                new_content.extend(content[i + 1 :])
-                break
-            app_block_lines = [line]
-            continue
+    new_app_content = modify_app_line(app_block.content, css_file_path)
+    new_content = update_file_content(content, app_block, new_app_content)
 
-        if in_app_block:
-            open_parentheses += line.count("(") - line.count(")")
-            app_block_lines.append(line)
-
-            if open_parentheses == 0:
-                # End of App block reached
-                joined_lines = "".join(app_block_lines)
-                new_line = modify_app_line(joined_lines, css_file_path)
-                new_content.append(new_line)
-                theme_applied = True
-                new_content.extend(content[i + 1 :])
-                break
-            continue
-
-        new_content.append(line)
-
-    return theme_applied, new_content
+    return True, new_content
 
 
 def apply_theme(theme_name: str, files: list[str]) -> None:
