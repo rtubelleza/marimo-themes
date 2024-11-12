@@ -4,20 +4,7 @@ import re
 from pathlib import Path
 
 from .app_parser import find_app_block, update_file_content
-from .util import get_themes_dir, is_marimo_file
-
-
-def validate_theme_exists(theme_name: str, themes_dir: Path) -> Path:
-    """Validate theme exists and return its path."""
-    css_file_path = themes_dir / f"{theme_name}.css"
-    if not css_file_path.exists():
-        print(f"Error: Theme file {css_file_path} does not exist.")
-        print("Available themes:")
-        for theme in themes_dir.glob("*.css"):
-            print(f"- {theme.stem}")
-        msg = f"Theme {theme_name} not found"
-        raise FileNotFoundError(msg)
-    return css_file_path
+from .util import get_themes_dir, validate_theme_exists
 
 
 def modify_app_line(line: str, css_file_path: Path) -> str:
@@ -73,13 +60,6 @@ def apply_theme(theme_name: str, files: list[str]) -> None:
     modified_files = []
     try:
         for file_name in files:
-            if not is_marimo_file(file_name):
-                print(
-                    f"Skipping {file_name} because "
-                    "it is not a Marimo notebook."
-                )
-                continue
-
             theme_applied, new_content = process_file(file_name, css_file_path)
 
             if theme_applied:

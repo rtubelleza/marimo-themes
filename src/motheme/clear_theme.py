@@ -4,7 +4,6 @@ import re
 from pathlib import Path
 
 from .app_parser import find_app_block, update_file_content
-from .util import is_marimo_file
 
 
 def clean_app_line(line: str) -> str:
@@ -68,13 +67,6 @@ def clear_theme(files: list[str]) -> None:
     modified_files = []
     try:
         for file_name in files:
-            if not is_marimo_file(file_name):
-                print(
-                    f"Skipping {file_name} because "
-                    "it is not a Marimo notebook."
-                )
-                continue
-
             theme_cleared, new_content = process_file(file_name)
 
             if theme_cleared:
