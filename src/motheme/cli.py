@@ -6,6 +6,7 @@ import arguably
 
 from .apply_theme import apply_theme
 from .clear_theme import clear_theme
+from .current_theme import current_theme
 from .theme_downloader import download_themes, list_themes
 
 
@@ -82,6 +83,37 @@ def clear(*files: str, recursive: bool = False) -> None:
         files = expanded_files
 
     clear_theme(list(files))
+
+
+@arguably.command
+def current(*files: str, recursive: bool = False) -> None:
+    """
+    Show currently applied themes for specified notebook files.
+
+    Args:
+        files: List of Marimo notebook files to check
+        recursive: [-r] If True, recursively search directories for marimo
+            notebooks
+
+    """
+    if not files:
+        print(
+            "Error: Please specify at least one file or directory "
+            "to check themes for."
+        )
+        return
+
+    if recursive:
+        expanded_files = []
+        for file in files:
+            if Path(file).is_dir():
+                # Recursively find all .mo files in the directory
+                expanded_files.extend(Path(file).rglob("*.py"))
+            else:
+                expanded_files.append(file)
+        files = expanded_files
+
+    current_theme(list(files))
 
 
 def main() -> None:
