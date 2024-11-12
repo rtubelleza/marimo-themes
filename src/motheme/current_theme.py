@@ -6,7 +6,6 @@ import re
 from pathlib import Path
 
 from .app_parser import find_app_block
-from .util import is_marimo_file
 
 
 def extract_theme_name(line: str) -> str | None:
@@ -41,13 +40,6 @@ def current_theme(files: list[str]) -> None:
     found_themes = False
     try:
         for file_name in files:
-            if not is_marimo_file(file_name):
-                print(
-                    f"Skipping {file_name} because "
-                    "it is not a Marimo notebook."
-                )
-                continue
-
             with Path(file_name).open("r") as f:
                 content = f.readlines()
 

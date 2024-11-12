@@ -7,7 +7,9 @@ import arguably
 from .apply_theme import apply_theme
 from .clear_theme import clear_theme
 from .current_theme import current_theme
-from .theme_downloader import download_themes, list_themes
+from .list_themes import list_themes
+from .theme_downloader import download_themes
+from .util import is_marimo_file
 
 
 @arguably.command
@@ -20,6 +22,35 @@ def update() -> None:
 def themes() -> None:
     """List available Marimo themes."""
     list_themes()
+
+
+def _expand_files(*files: str, recursive: bool) -> list[str]:
+    """
+    Expand file paths, optionally recursively for directories.
+    Only includes valid Marimo notebook files.
+
+    Args:
+        files: Tuple of file/directory paths
+        recursive: If True, recursively search directories for Python files
+
+    Returns:
+        List of expanded file paths that are Marimo notebooks
+
+    """
+    if not recursive:
+        return [f for f in files if is_marimo_file(f)]
+
+    expanded_files = []
+    for file in files:
+        path = Path(file)
+        if path.is_dir():
+            # Find all .py files and filter for Marimo notebooks
+            expanded_files.extend(
+                str(f) for f in path.rglob("*.py") if is_marimo_file(str(f))
+            )
+        elif is_marimo_file(str(path)):
+            expanded_files.append(str(path))
+    return expanded_files
 
 
 @arguably.command
@@ -41,17 +72,8 @@ def apply(theme_name: str, *files: str, recursive: bool = False) -> None:
         )
         return
 
-    if recursive:
-        expanded_files = []
-        for file in files:
-            if Path(file).is_dir():
-                # Recursively find all .mo files in the directory
-                expanded_files.extend(Path(file).rglob("*.py"))
-            else:
-                expanded_files.append(file)
-        files = expanded_files
-
-    apply_theme(theme_name, list(files))
+    files = _expand_files(*files, recursive=recursive)
+    apply_theme(theme_name, files)
 
 
 @arguably.command
@@ -72,17 +94,8 @@ def clear(*files: str, recursive: bool = False) -> None:
         )
         return
 
-    if recursive:
-        expanded_files = []
-        for file in files:
-            if Path(file).is_dir():
-                # Recursively find all .mo files in the directory
-                expanded_files.extend(Path(file).rglob("*.py"))
-            else:
-                expanded_files.append(file)
-        files = expanded_files
-
-    clear_theme(list(files))
+    files = _expand_files(*files, recursive=recursive)
+    clear_theme(files)
 
 
 @arguably.command
@@ -103,17 +116,8 @@ def current(*files: str, recursive: bool = False) -> None:
         )
         return
 
-    if recursive:
-        expanded_files = []
-        for file in files:
-            if Path(file).is_dir():
-                # Recursively find all .mo files in the directory
-                expanded_files.extend(Path(file).rglob("*.py"))
-            else:
-                expanded_files.append(file)
-        files = expanded_files
-
-    current_theme(list(files))
+    files = _expand_files(*files, recursive=recursive)
+    current_theme(files)
 
 
 def main() -> None:
