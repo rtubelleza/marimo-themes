@@ -1,4 +1,4 @@
-# Support Python 3.12+.
+# Support Python 3.9+.
 target-version = "py39"
 
 # Set the maximum line length to 79.
