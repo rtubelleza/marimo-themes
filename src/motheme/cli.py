@@ -72,8 +72,7 @@ def apply(theme_name: str, *files: str, recursive: bool = False) -> None:
         )
         return
 
-    files = _expand_files(*files, recursive=recursive)
-    apply_theme(theme_name, files)
+    apply_theme(theme_name, _expand_files(*files, recursive=recursive))
 
 
 @arguably.command
@@ -94,8 +93,7 @@ def clear(*files: str, recursive: bool = False) -> None:
         )
         return
 
-    files = _expand_files(*files, recursive=recursive)
-    clear_theme(files)
+    clear_theme(_expand_files(*files, recursive=recursive))
 
 
 @arguably.command
@@ -116,8 +114,7 @@ def current(*files: str, recursive: bool = False) -> None:
         )
         return
 
-    files = _expand_files(*files, recursive=recursive)
-    current_theme(files)
+    current_theme(_expand_files(*files, recursive=recursive))
 
 
 def main() -> None:
