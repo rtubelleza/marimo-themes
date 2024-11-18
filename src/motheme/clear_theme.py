@@ -1,11 +1,13 @@
 """Clear theme from marimo notebooks."""
 
 import re
+from functools import lru_cache
 from pathlib import Path
 
 from .app_parser import find_app_block, update_file_content
 
 
+@lru_cache(maxsize=128)
 def clean_app_line(line: str) -> str:
     """
     Remove css_file parameter and cleaning up punctuation.
@@ -65,8 +67,10 @@ def clear_theme(files: list[str]) -> None:
 
     """
     modified_files = []
+    current_file = None
     try:
         for file_name in files:
+            current_file = file_name
             theme_cleared, new_content = process_file(file_name)
 
             if theme_cleared:
@@ -78,7 +82,7 @@ def clear_theme(files: list[str]) -> None:
                 print(f"No theme found in {file_name}")
 
     except OSError as e:
-        print(f"Error processing {file_name}: {e}")
+        print(f"Error processing {current_file}: {e}")
 
     # Summary
     if modified_files:
