@@ -53,67 +53,50 @@ def _expand_files(*files: str, recursive: bool) -> list[str]:
     return expanded_files
 
 
-@arguably.command
-def apply(theme_name: str, *files: str, recursive: bool = False) -> None:
+def _check_files_provided(
+    action_description: str, files: tuple[str, ...]
+) -> bool:
     """
-    Apply a Marimo theme to specified notebook files.
+    Check if files were provided and print error message if not.
 
     Args:
-        theme_name: Name of the theme to apply
-        files: List of Marimo notebook files to modify
-        recursive: [-r] If True, recursively search directories for marimo
-            notebooks
+        action_description: Description of the action being performed
+        files: Tuple of file/directory paths
+
+    Returns:
+        bool: True if files were provided, False otherwise
 
     """
     if not files:
         print(
-            "Error: Please specify at least one file or directory "
-            "to apply the theme."
+            f"Error: Please specify at least one file or directory "
+            f"to {action_description}."
         )
-        return
+        return False
+    return True
 
+
+@arguably.command
+def apply(theme_name: str, *files: str, recursive: bool = False) -> None:
+    """Apply a Marimo theme to specified notebook files."""
+    if not _check_files_provided("apply the theme", files):
+        return
     apply_theme(theme_name, _expand_files(*files, recursive=recursive))
 
 
 @arguably.command
 def clear(*files: str, recursive: bool = False) -> None:
-    """
-    Remove theme settings from specified notebook files.
-
-    Args:
-        files: List of Marimo notebook files to modify
-        recursive: [-r] If True, recursively search directories for marimo
-            notebooks
-
-    """
-    if not files:
-        print(
-            "Error: Please specify at least one file or directory "
-            "to clear themes from."
-        )
+    """Remove theme settings from specified notebook files."""
+    if not _check_files_provided("clear themes from", files):
         return
-
     clear_theme(_expand_files(*files, recursive=recursive))
 
 
 @arguably.command
 def current(*files: str, recursive: bool = False) -> None:
-    """
-    Show currently applied themes for specified notebook files.
-
-    Args:
-        files: List of Marimo notebook files to check
-        recursive: [-r] If True, recursively search directories for marimo
-            notebooks
-
-    """
-    if not files:
-        print(
-            "Error: Please specify at least one file or directory "
-            "to check themes for."
-        )
+    """Show currently applied themes for specified notebook files."""
+    if not _check_files_provided("check themes for", files):
         return
-
     current_theme(_expand_files(*files, recursive=recursive))
 
 
