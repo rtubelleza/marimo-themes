@@ -58,8 +58,10 @@ def apply_theme(theme_name: str, files: list[str]) -> None:
 
     # Process files
     modified_files = []
+    current_file = None
     try:
         for file_name in files:
+            current_file = file_name
             theme_applied, new_content = process_file(file_name, css_file_path)
 
             if theme_applied:
@@ -71,7 +73,7 @@ def apply_theme(theme_name: str, files: list[str]) -> None:
                 print(f"Failed to apply {theme_name} theme to {file_name}")
 
     except OSError as e:
-        print(f"Error processing {file_name}: {e}")
+        print(f"Error processing {current_file}: {e}")
 
     # Summary
     if modified_files:
