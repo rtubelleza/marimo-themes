@@ -1,12 +1,14 @@
 """Apply a Marimo theme to specified notebook files."""
 
 import re
+from functools import lru_cache
 from pathlib import Path
 
 from .app_parser import find_app_block, update_file_content
 from .util import get_themes_dir, validate_theme_exists
 
 
+@lru_cache(maxsize=128)
 def modify_app_line(line: str, css_file_path: Path) -> str:
     """Modify a marimo.App line to include or update the css_file parameter."""
     if "css_file=" in line:
