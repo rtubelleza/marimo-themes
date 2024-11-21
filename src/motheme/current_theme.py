@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import re
+from functools import lru_cache
 from pathlib import Path
 
 from .app_parser import find_app_block
 
 
+@lru_cache(maxsize=128)
 def extract_theme_name(line: str) -> str | None:
     """
     Extract theme name from marimo.App line.
@@ -38,8 +40,10 @@ def current_theme(files: list[str]) -> None:
 
     """
     found_themes = False
+    current_file = None
     try:
         for file_name in files:
+            current_file = file_name
             with Path(file_name).open("r") as f:
                 content = f.readlines()
 
@@ -56,7 +60,7 @@ def current_theme(files: list[str]) -> None:
                 print(f"{file_name}: No theme applied")
 
     except OSError as e:
-        print(f"Error processing {file_name}: {e}")
+        print(f"Error processing {current_file}: {e}")
 
     if not found_themes:
         print("\nNo themes found in any files.")
