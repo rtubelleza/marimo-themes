@@ -1,11 +1,13 @@
 """Clear theme from marimo notebooks."""
 
 import re
+from functools import lru_cache
 from pathlib import Path
 
-from .util import is_marimo_file
+from .app_parser import find_app_block, update_file_content
 
 
+@lru_cache(maxsize=128)
 def clean_app_line(line: str) -> str:
     """
     Remove css_file parameter and cleaning up punctuation.
@@ -43,49 +45,17 @@ def process_file(file_name: str) -> tuple[bool, list[str]]:
     with Path(file_name).open("r") as f:
         content = f.readlines()
 
-    new_content = []
-    theme_cleared = False
-    in_app_block = False
-    app_block_lines = []
-    open_parentheses = 0
+    app_block = find_app_block(content)
+    if not app_block:
+        return False, content
 
-    for i, line in enumerate(content):
-        if "marimo.App(" in line:
-            in_app_block = True
-            open_parentheses = line.count("(") - line.count(")")
-            if open_parentheses == 0:
-                new_line = clean_app_line(line)
-                new_content.append(new_line)
-                theme_cleared = True
-                new_content.extend(content[i + 1 :])
-                break
-            app_block_lines = [line]
-            continue
+    if "css_file=" not in app_block.content:
+        return False, content
 
-        if in_app_block:
-            open_parentheses += line.count("(") - line.count(")")
-            app_block_lines.append(line)
+    new_app_content = clean_app_line(app_block.content)
+    new_content = update_file_content(content, app_block, new_app_content)
 
-            if open_parentheses == 0:
-                # End of App block reached
-                if any("css_file=" in _l for _l in app_block_lines):
-                    # Join all lines and clean them as one
-                    joined_lines = "".join(app_block_lines)
-                    new_line = clean_app_line(joined_lines)
-                    new_content.append(new_line)
-                    theme_cleared = True
-                    new_content.extend(content[i + 1 :])
-                else:
-                    # No css_file found, keep original lines
-                    new_content.extend(app_block_lines)
-                    new_content.extend(content[i + 1 :])
-
-                break
-            continue
-
-        new_content.append(line)
-
-    return theme_cleared, new_content
+    return True, new_content
 
 
 def clear_theme(files: list[str]) -> None:
@@ -97,15 +67,10 @@ def clear_theme(files: list[str]) -> None:
 
     """
     modified_files = []
+    current_file = None
     try:
         for file_name in files:
-            if not is_marimo_file(file_name):
-                print(
-                    f"Skipping {file_name} because "
-                    "it is not a Marimo notebook."
-                )
-                continue
-
+            current_file = file_name
             theme_cleared, new_content = process_file(file_name)
 
             if theme_cleared:
@@ -117,7 +82,7 @@ def clear_theme(files: list[str]) -> None:
                 print(f"No theme found in {file_name}")
 
     except OSError as e:
-        print(f"Error processing {file_name}: {e}")
+        print(f"Error processing {current_file}: {e}")
 
     # Summary
     if modified_files:

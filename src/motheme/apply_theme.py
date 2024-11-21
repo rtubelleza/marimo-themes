@@ -1,24 +1,14 @@
 """Apply a Marimo theme to specified notebook files."""
 
 import re
+from functools import lru_cache
 from pathlib import Path
 
-from .util import get_themes_dir, is_marimo_file
+from .app_parser import find_app_block, update_file_content
+from .util import get_themes_dir, validate_theme_exists
 
 
-def validate_theme_exists(theme_name: str, themes_dir: Path) -> Path:
-    """Validate theme exists and return its path."""
-    css_file_path = themes_dir / f"{theme_name}.css"
-    if not css_file_path.exists():
-        print(f"Error: Theme file {css_file_path} does not exist.")
-        print("Available themes:")
-        for theme in themes_dir.glob("*.css"):
-            print(f"- {theme.stem}")
-        msg = f"Theme {theme_name} not found"
-        raise FileNotFoundError(msg)
-    return css_file_path
-
-
+@lru_cache(maxsize=128)
 def modify_app_line(line: str, css_file_path: Path) -> str:
     """Modify a marimo.App line to include or update the css_file parameter."""
     if "css_file=" in line:
@@ -44,43 +34,14 @@ def process_file(
     with Path(file_path).open() as f:
         content = f.readlines()
 
-    new_content = []
-    theme_applied = False
-    in_app_block = False
-    app_block_lines = []
-    open_parentheses = 0
+    app_block = find_app_block(content)
+    if not app_block:
+        return False, content
 
-    for i, line in enumerate(content):
-        if "app = marimo.App(" in line:
-            in_app_block = True
-            open_parentheses = line.count("(") - line.count(")")
-            if open_parentheses == 0:
-                # Single line case
-                new_line = modify_app_line(line, css_file_path)
-                new_content.append(new_line)
-                theme_applied = True
-                new_content.extend(content[i + 1 :])
-                break
-            app_block_lines = [line]
-            continue
+    new_app_content = modify_app_line(app_block.content, css_file_path)
+    new_content = update_file_content(content, app_block, new_app_content)
 
-        if in_app_block:
-            open_parentheses += line.count("(") - line.count(")")
-            app_block_lines.append(line)
-
-            if open_parentheses == 0:
-                # End of App block reached
-                joined_lines = "".join(app_block_lines)
-                new_line = modify_app_line(joined_lines, css_file_path)
-                new_content.append(new_line)
-                theme_applied = True
-                new_content.extend(content[i + 1 :])
-                break
-            continue
-
-        new_content.append(line)
-
-    return theme_applied, new_content
+    return True, new_content
 
 
 def apply_theme(theme_name: str, files: list[str]) -> None:
@@ -99,15 +60,10 @@ def apply_theme(theme_name: str, files: list[str]) -> None:
 
     # Process files
     modified_files = []
+    current_file = None
     try:
         for file_name in files:
-            if not is_marimo_file(file_name):
-                print(
-                    f"Skipping {file_name} because "
-                    "it is not a Marimo notebook."
-                )
-                continue
-
+            current_file = file_name
             theme_applied, new_content = process_file(file_name, css_file_path)
 
             if theme_applied:
@@ -119,7 +75,7 @@ def apply_theme(theme_name: str, files: list[str]) -> None:
                 print(f"Failed to apply {theme_name} theme to {file_name}")
 
     except OSError as e:
-        print(f"Error processing {file_name}: {e}")
+        print(f"Error processing {current_file}: {e}")
 
     # Summary
     if modified_files:
