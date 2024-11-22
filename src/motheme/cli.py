@@ -1,27 +1,29 @@
 """CLI for motheme."""
 
+from collections.abc import Generator
+from contextlib import contextmanager, redirect_stdout
+from io import StringIO
 from pathlib import Path
 
 import arguably
 
-from .apply_theme import apply_theme
-from .clear_theme import clear_theme
-from .current_theme import current_theme
-from .list_themes import list_themes
-from .theme_downloader import download_themes
-from .util import is_marimo_file
+from motheme.apply_theme import apply_theme
+from motheme.clear_theme import clear_theme
+from motheme.current_theme import current_theme
+from motheme.list_themes import list_themes
+from motheme.theme_downloader import download_themes
+from motheme.util import is_marimo_file
 
 
-@arguably.command
-def update() -> None:
-    """Update Marimo themes from GitHub repository."""
-    download_themes()
-
-
-@arguably.command
-def themes() -> None:
-    """List available Marimo themes."""
-    list_themes()
+@contextmanager
+def quiet_mode(*, enabled: bool = True) -> Generator[None, None, None]:
+    """Enable or disable quiet mode."""
+    if enabled:
+        null_io = StringIO()
+        with redirect_stdout(null_io):
+            yield
+    else:
+        yield
 
 
 def _expand_files(*files: str, recursive: bool) -> list[str]:
@@ -77,27 +79,78 @@ def _check_files_provided(
 
 
 @arguably.command
-def apply(theme_name: str, *files: str, recursive: bool = False) -> None:
-    """Apply a Marimo theme to specified notebook files."""
+def update() -> None:
+    """Update Marimo themes from GitHub repository."""
+    download_themes()
+
+
+@arguably.command
+def themes() -> None:
+    """List available Marimo themes."""
+    list_themes()
+
+
+@arguably.command
+def apply(
+    theme_name: str,
+    *files: str,
+    recursive: bool = False,
+    quiet: bool = False,
+) -> None:
+    """
+    Apply a Marimo theme to specified notebook files.
+
+    Args:
+        theme_name: Name of the theme to apply
+        files: Tuple of file/directory paths
+        recursive: [-r] If True, recursively search directories for
+            Marimo notebooks
+        quiet: [-q] If True, suppress output
+
+    """
     if not _check_files_provided("apply the theme", files):
         return
-    apply_theme(theme_name, _expand_files(*files, recursive=recursive))
+
+    with quiet_mode(enabled=quiet):
+        apply_theme(theme_name, _expand_files(*files, recursive=recursive))
 
 
 @arguably.command
-def clear(*files: str, recursive: bool = False) -> None:
-    """Remove theme settings from specified notebook files."""
+def clear(*files: str, recursive: bool = False, quiet: bool = False) -> None:
+    """
+    Remove theme settings from specified notebook files.
+
+    Args:
+        files: Tuple of file/directory paths
+        recursive: [-r] If True, recursively search directories for
+            Marimo notebooks
+        quiet: [-q] If True, suppress output
+
+    """
     if not _check_files_provided("clear themes from", files):
         return
-    clear_theme(_expand_files(*files, recursive=recursive))
+
+    with quiet_mode(enabled=quiet):
+        clear_theme(_expand_files(*files, recursive=recursive))
 
 
 @arguably.command
-def current(*files: str, recursive: bool = False) -> None:
-    """Show currently applied themes for specified notebook files."""
+def current(*files: str, recursive: bool = False, quiet: bool = False) -> None:
+    """
+    Show currently applied themes for specified notebook files.
+
+    Args:
+        files: Tuple of file/directory paths
+        recursive: [-r] If True, recursively search directories for
+            Marimo notebooks
+        quiet: [-q] If True, suppress output
+
+    """
     if not _check_files_provided("check themes for", files):
         return
-    current_theme(_expand_files(*files, recursive=recursive))
+
+    with quiet_mode(enabled=quiet):
+        current_theme(_expand_files(*files, recursive=recursive))
 
 
 def main() -> None:

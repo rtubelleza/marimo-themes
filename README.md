@@ -66,6 +66,16 @@ motheme apply -r coldme ./
 > notebooks because the field `css_file` in `marimo.App()` may leak your
 > private data.
 
+You can also add `motheme` as a uv tool
+
+```bash
+# install motheme as a uv tool
+uv tool install motheme
+
+# use motheme
+uvx motheme <command>
+```
+
 ## Usage
 
 -   **Requirements**: Ensure you are using Marimo version **0.9.14** or higher.
