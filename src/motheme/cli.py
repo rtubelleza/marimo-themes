@@ -14,6 +14,7 @@ from motheme.util import (
     expand_files,
     get_themes_dir,
     quiet_mode,
+    remove_theme_files,
     validate_theme_exists,
 )
 
@@ -113,6 +114,22 @@ def current(
         current_theme(
             expand_files(*files, recursive=recursive, git_ignore=git_ignore)
         )
+
+
+@arguably.command
+def remove(*theme_names: str) -> None:
+    """
+    Remove specified theme files from themes directory.
+
+    Args:
+        theme_names: Names of themes to remove
+
+    """
+    if not theme_names:
+        print("Error: Please specify at least one theme name to remove.")
+        return
+
+    remove_theme_files(list(theme_names))
 
 
 @arguably.command
