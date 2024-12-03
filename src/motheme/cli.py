@@ -1,5 +1,7 @@
 """CLI for motheme."""
 
+from shutil import copyfile
+
 import arguably
 
 from motheme.apply_theme import apply_theme
@@ -10,7 +12,9 @@ from motheme.theme_downloader import download_themes
 from motheme.util import (
     check_files_provided,
     expand_files,
+    get_themes_dir,
     quiet_mode,
+    validate_theme_exists,
 )
 
 
@@ -109,6 +113,34 @@ def current(
         current_theme(
             expand_files(*files, recursive=recursive, git_ignore=git_ignore)
         )
+
+
+@arguably.command
+def create(ref_theme_name: str, theme_name: str) -> None:
+    """
+    Create a new theme by duplicating an existing theme.
+
+    Args:
+        ref_theme_name: Name of the reference theme to duplicate
+        theme_name: Name for the new theme
+
+    """
+    themes_dir = get_themes_dir()
+
+    # Validate reference theme exists
+    ref_theme_path = validate_theme_exists(ref_theme_name, themes_dir)
+
+    # Create new theme path
+    new_theme_path = themes_dir / f"{theme_name}.css"
+
+    # Check if new theme already exists
+    if new_theme_path.exists():
+        print(f"Error: Theme '{theme_name}' already exists.")
+        return
+
+    # Copy the reference theme to create new theme
+    copyfile(ref_theme_path, new_theme_path)
+    print(f"Created new theme: {new_theme_path}")
 
 
 def main() -> None:
