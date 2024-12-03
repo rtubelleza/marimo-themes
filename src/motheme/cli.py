@@ -1,21 +1,18 @@
 """CLI for motheme."""
 
-from shutil import copyfile
-
 import arguably
 
 from motheme.apply_theme import apply_theme
 from motheme.clear_theme import clear_theme
+from motheme.create_theme import create_theme
 from motheme.current_theme import current_theme
 from motheme.list_themes import list_themes
+from motheme.remove_theme import remove_theme_files
 from motheme.theme_downloader import download_themes
 from motheme.util import (
     check_files_provided,
     expand_files,
-    get_themes_dir,
     quiet_mode,
-    remove_theme_files,
-    validate_theme_exists,
 )
 
 
@@ -142,22 +139,7 @@ def create(ref_theme_name: str, theme_name: str) -> None:
         theme_name: Name for the new theme
 
     """
-    themes_dir = get_themes_dir()
-
-    # Validate reference theme exists
-    ref_theme_path = validate_theme_exists(ref_theme_name, themes_dir)
-
-    # Create new theme path
-    new_theme_path = themes_dir / f"{theme_name}.css"
-
-    # Check if new theme already exists
-    if new_theme_path.exists():
-        print(f"Error: Theme '{theme_name}' already exists.")
-        return
-
-    # Copy the reference theme to create new theme
-    copyfile(ref_theme_path, new_theme_path)
-    print(f"Created new theme: {new_theme_path}")
+    create_theme(ref_theme_name, theme_name)
 
 
 def main() -> None:
